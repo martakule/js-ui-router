@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>UI Route JS</title>
+	<style>
+	[data-ui] {display: none;}
+	</style>
+</head>
+<body>
+	<a href="#">Home</a>
+	<a href="#one">Link 1</a>
+	<a href="#two">Link 2</a>
+	<a href="#three">Link 3</a>
+	<a href="#four">Link 4</a>
+	
+	<div data-ui="home">
+		Welcome to my homepage!
+	</div>
+	<div data-ui="one">
+		This is secion one!
+	</div>
+	<div data-ui="two">
+		This is secion two!
+	</div>
+	<div data-ui="three">
+		This is secion three!
+	</div>
+	<div data-ui="four">
+		This is secion four!
+	</div>
+<script>
+	
+	window.onload = loadUi;
+	
+	function loadUi(){
+		window.onhashchange = loadUi;
+		var hash = window.location.hash.substr(1);
+		if(!hash) hash = "home";
+		var divs = document.querySelectorAll('[data-ui]'), i;
+		for (i = 0; i < divs.length; ++i) {
+			divs[i].dataset.ui == hash?divs[i].style.display="block":divs[i].style.display="none";
+		}
+	}
+	
+</script>
+</body>
+</html>
