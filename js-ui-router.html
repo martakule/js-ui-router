@@ -4,10 +4,11 @@
 	<title>UI Route JS</title>
 	<style>
 	[data-ui] {display: none;}
+	.active {font-weight: bold;}
 	</style>
 </head>
 <body>
-	<a href="#">Home</a>
+	<a href="#home">Home</a>
 	<a href="#one">Link 1</a>
 	<a href="#two">Link 2</a>
 	<a href="#three">Link 3</a>
@@ -35,13 +36,17 @@
 	function loadUi(){
 		window.onhashchange = loadUi;
 		var hash = window.location.hash.substr(1);
-		if(!hash) hash = "home";
+		if(!hash) window.location.hash = "#home";
+
 		var divs = document.querySelectorAll('[data-ui]'), i;
+		var links = document.querySelectorAll("a[href^='#']");
+		
 		for (i = 0; i < divs.length; ++i) {
 			divs[i].dataset.ui == hash?divs[i].style.display="block":divs[i].style.display="none";
+			links[i].href == window.location.origin+window.location.pathname+"#"+hash?links[i].className = "active":links[i].className="";
+			console.log(links[i].href);
 		}
 	}
-	
 </script>
 </body>
 </html>
