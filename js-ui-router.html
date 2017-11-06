@@ -8,12 +8,14 @@
 	</style>
 </head>
 <body>
+	<!-- Clicking on any of these links will append the href value to the website URL and NOT reload the page -->
 	<a href="#home">Home</a>
 	<a href="#one">Link 1</a>
 	<a href="#two">Link 2</a>
 	<a href="#three">Link 3</a>
 	<a href="#four">Link 4</a>
 	
+	<!-- These divs can be considere pages of the website - they are hidden by default and set to display block when corresponding link is clicked -->
 	<div data-ui="home">
 		Welcome to my homepage!
 	</div>
@@ -31,21 +33,45 @@
 	</div>
 <script>
 	
+	// call the function on body load
+	// this ensures that if page is acessed via link with #hashtag
+	// then the appropriate section is loaded (i.e. permits refreshing)
 	window.onload = loadUi;
 	
+	// function to call to update UI based on the #hashtag
 	function loadUi(){
+		// call itself when URL hash changes
 		window.onhashchange = loadUi;
+		
+		// get location hash and reomve the first character (the # itself)
 		var hash = window.location.hash.substr(1);
+
+		// if hash is empty we set it to default hash which is our homepage
 		if(!hash) window.location.hash = "#home";
 
+		// get all elements that have a data-ui attribute
 		var divs = document.querySelectorAll('[data-ui]'), i;
+
+		// get all links whose href starts with a #
 		var links = document.querySelectorAll("a[href^='#']");
 		
+		// loop through all of the data-ui divs
 		for (i = 0; i < divs.length; ++i) {
+			// check the data-ui value and if it matches the hash value set display to block - all other data-ui elements get hidden
 			divs[i].dataset.ui == hash?divs[i].style.display="block":divs[i].style.display="none";
+
+			// using the same loop to access each of the links - if the href matches the #hash value set class to active - otherwise remove all classes
 			links[i].href == window.location.origin+window.location.pathname+"#"+hash?links[i].className = "active":links[i].className="";
-			console.log(links[i].href);
 		}
+
+		/* 
+			It is important to keep in mind that if the number of links with href starting with # and number of elements with data-ui differs the above
+			loop will produce undesired results and both links/divs will have to be looped through separately.
+
+			Another thing to keep in mind is that links with a hashtag set in href are used to access sections of a website by element IDs - if you have a div
+			with the same ID as the links href then the browser will scroll to that section. This is the reason data-ui attributes are used instead of simply IDs.
+
+		*/
 	}
 </script>
 </body>
